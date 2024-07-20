@@ -1,0 +1,14 @@
+[
+    {
+        "serial_number": 1,
+        "original_text": "why are you here?",
+        "translated_text": "なぜここに?",
+        "token_count": 51
+    },
+    {
+        "serial_number": 2,
+        "original_text": "my wish",
+        "translated_text": "私の願いは",
+        "token_count": 21
+    }
+]

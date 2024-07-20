@@ -1,0 +1,573 @@
+body {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  width: 1280px;
+  height: 600px;
+  background-size: cover;
+  background-image: url("./img/rectangle.jpg");
+}
+
+.overlap-group {
+  position: absolute;
+  width: 320px;
+  height: 625px;
+  background-color: #ffffffcc;
+  border-radius: 0px 30px 30px 0px;
+  box-shadow: var(--dashboard-design-system-dashboard-box-shadow);
+}
+
+.LOGO {
+  width: 193px;
+  top: 43px;
+  left: 42px;
+  position: absolute;
+  height: 29px;
+}
+
+.logo {
+  width: 189px;
+  top: 0;
+  left: 0;
+  position: absolute;
+  height: 29px;
+  font-family: MV Boli;
+}
+
+.all-in-one-social {
+  position: absolute;
+  top: -1px;
+  left: 22px;
+  font-weight: 400;
+  color: #4286db;
+  font-size: 64px;
+  text-align: center;
+  letter-spacing: -1.92px;
+  line-height: normal;
+}
+
+.network {
+  position: absolute;
+  width: 21px;
+  height: 21px;
+  top: 5px;
+  left: 172px;
+}
+
+.menu-item-selected {
+  top: 134px;
+  left: 30px;
+  position: absolute;
+  width: 220px;
+  height: 56px;
+}
+
+.frame {
+  background-color: #59a7ff;
+  border-radius: 15px;
+  display: flex;
+  width: 220px;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 20px 21px;
+  position: relative;
+  top: -1px;
+}
+
+.img {
+  position: relative;
+  width: 18px;
+  height: 18px;
+}
+
+.overview {
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "Lato-Medium", Helvetica;
+  font-weight: 500;
+  color: #ffffff;
+  font-size: 16px;
+  letter-spacing: 0.8px;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.menu-item {
+  position: absolute;
+  width: 220px;
+  height: 56px;
+  top: 200px;
+  left: 30px;
+}
+
+.frame-2 {
+  background-color: #ffffff;
+  display: flex;
+  width: 220px;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 20px 21px;
+  position: relative;
+  top: -1px;
+}
+.tbb {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none; /* Optional: Removes the default focus outline */
+}
+.tbb:hover {
+  /* Optional: Add hover effects */
+  background-color: #59a7ff; /* Change background color on hover */
+  color: #ebebeb; /* Change text color on hover */
+}
+
+.reports {
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "Lato-Medium", Helvetica;
+  font-weight: 500;
+  color: #849aa8;
+  font-size: 16px;
+  letter-spacing: 0.8px;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.frame-wrapper {
+  top: 268px;
+  left: 28px;
+  position: absolute;
+  width: 220px;
+  height: 56px;
+}
+
+.div-wrapper {
+  top: 332px;
+  left: 28px;
+  position: absolute;
+  width: 220px;
+  height: 56px;
+}
+
+.lg-wrapper {
+  top: 550px;
+  left: 28px;
+  position: absolute;
+  width: 220px;
+  height: 56px;
+  border-radius: 20px;
+}
+
+.frame-3 {
+  background-color: #ffffff;
+  display: flex;
+  width: 220px;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 20px 21px;
+  position: relative;
+  top: -1px;
+  border-radius: 20px;
+}
+
+.reports-1 {
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "Lato-Medium", Helvetica;
+  font-weight: 500;
+  color: #849aa8;
+  font-size: 16px;
+  letter-spacing: 0.8px;
+  line-height: 16px;
+  white-space: nowrap;
+  border-radius: 10%;
+}
+.profile {
+  position: absolute;
+  width: 160px;
+  height: 56px;
+  top: 20px; /* Adjust top position as needed */
+  left: 1150px; /* Adjust left position as needed */
+}
+
+.overlap-group-2 {
+  position: absolute;
+  top: 0px;
+  width: 120px;
+  height: 56px;
+  background-color: #ffffff5b;
+  border-top-right-radius: 7px;
+  opacity: 0.75;
+  z-index: 0;
+}
+.tbb1 {
+  position: relative;
+  border: none;
+  width: 120px;
+  height: 56px;
+  background-color: #ffffff00;
+  border-top-right-radius: 7px;
+
+  opacity: 1;
+  z-index: 10;
+}
+.tbb1:hover {
+  background-color: #575757;
+  color: #db0a0a;
+  opacity: 0.3;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: #ffffff5b;
+  top: 56px; /* Align with button height */
+  left: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  min-width: 120px; /* Align with button width */
+  z-index: 1000;
+  opacity: 0.75;
+}
+
+.dropdown-item {
+  width: 100%;
+}
+
+.dropdown-link {
+  display: block;
+  padding: 10px 20px;
+  color: white;
+  text-decoration: none;
+}
+
+.dropdown-link:hover {
+  background-color: #575757;
+  color: #db0a0a;
+  opacity: 0.3;
+}
+
+.sub-dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: #ffffff5b;
+  top: 0;
+  right: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  min-width: 150px;
+  z-index: 1001; /* Slightly higher than the parent menu */
+}
+
+.sub-dropdown-item {
+  width: 100%;
+}
+
+.sub-dropdown-link {
+  display: block;
+  padding: 10px 20px;
+  color: white;
+  text-decoration: none;
+}
+
+.sub-dropdown-link:hover {
+  background-color: #575757;
+}
+
+.menu-item.dropdown:hover .dropdown-menu,
+.dropdown-menu:hover {
+  display: block;
+}
+
+.dropdown-item.dropdown:hover .sub-dropdown-menu,
+.sub-dropdown-menu:hover {
+  display: block;
+}
+
+.overlap-group-3 {
+  position: absolute;
+  top: 20px; /* Adjust top position as needed */
+  left: 1092px; /* Adjust left position as needed */
+  width: 56px;
+  height: 56px;
+  background-color: #ffffff5b;
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+  box-shadow: var(--dashboard-design-system-dashboard-box-shadow);
+}
+
+.text-wrapper-2 {
+  position: absolute;
+  font-family: "Lato-Bold", Helvetica;
+  font-weight: 700;
+  color: #000000;
+  font-size: 14px;
+  letter-spacing: 0.14px;
+  line-height: 16px;
+  margin: 7px;
+  white-space: nowrap;
+}
+
+.down-arrow {
+  position: absolute;
+  width: 12px;
+  height: 7px;
+  top: 25px;
+  left: 197px;
+}
+
+.text-wrapper-3 {
+  position: absolute;
+  top: 28px;
+  left: 7px;
+  opacity: 0.6;
+  font-family: "Lato-Medium", Helvetica;
+  font-weight: 500;
+  color: #000000;
+  font-size: 12px;
+  letter-spacing: 0.12px;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.mono-icons {
+  position: absolute;
+  width: 15px;
+  height: 18px;
+  top: 19px;
+  left: 163px;
+}
+.chat-container {
+  position: absolute;
+  bottom: 30px; 
+  left: 1000px;
+  width: 300px; /* Adjust width as needed */
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: none;
+}
+.chat-container-visible {
+  display: block; /* Visible when this class is added */
+}
+.chat-header {
+  position: absolute;
+  bottom: 20px; 
+  left: 1000px;
+  width: 300px; /* Adjust width as needed */
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #007bff;
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+  display: block;
+  z-index: 2;
+}
+.chat-header button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 5px;
+  text-align: center;
+  font-weight: bold;
+  border: none;
+}
+.chat-messages {
+  padding: 20px;
+  overflow-y: auto;
+  max-height: 300px;
+}
+.message {
+  margin-bottom: 10px; /* Add some bottom margin between messages */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.message .sender {
+  font-weight: bold;
+  color: #007bff;
+  margin-bottom: 5px;
+}
+
+.message .text {
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  padding: 8px;
+  word-wrap: break-word;
+  max-width: 80%;
+}
+.chat-input {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f4f4f4;
+}
+.chat-input input[type="text"] {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.chat-input button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.chat-input button:hover {
+  background-color: #0056b3;
+}
+.search-container-1 {
+  position: absolute;
+  bottom: 50px;
+  left: 650px;
+  transform: translateX(-50%);
+  text-align: center;
+  background-color: #f0eeee;
+  width: 550px;
+  height: 50px;
+  border-radius: 10px;
+  overflow-y: auto;
+  word-wrap: break-word;
+
+}
+
+.search-container-1 input[type="text"] {
+  padding: 8px;
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  width: 370px; 
+  overflow-y: auto;
+  word-wrap: break-word;
+}
+
+.search-container-1 button {
+  position: absolute;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff00;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.search-container-1 button:hover {
+  background-color: #0057b300;
+}
+
+
+#message-input {
+  bottom: 10px;
+  position: absolute;
+  left: 72px;
+  overflow-y: auto;
+  word-wrap: break-word;
+}
+
+#translate-button {
+  left:475px;
+  bottom: 5px;
+  width: 52px;
+  height: 45px;
+  border-radius: 50%;
+  position: absolute;
+  background-image: url('img/convbutton.png');
+  background-color: #dfdcdc00;
+}
+
+#translate-button:hover {
+  background-image: url('img/convbutton1.png');
+  transition: 1000ms;
+}
+
+#bubble-to-chat {
+  width: 50px;
+  height: 50px;
+  left: 10px;
+  bottom: 2px;
+  position: absolute;
+  background-image: url('img/images-removebg-preview.png');
+  background-color: #00000000;
+  opacity: 0.6;
+}
+
+#bubble-to-chat:hover {
+  opacity: 1;
+}
+
+#bubble-to-chat.button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#bubble-to-chat.button:hover {
+  background-color: #0056b3;
+}
+.message-bubble {
+  position: absolute;
+  top: 150px;
+  left: 870px;
+  background: #759cc9;
+  overflow-y: inherit;
+  word-wrap: break-word;
+  color: white;
+  padding: 10px 20px;
+  padding-bottom: 40px;
+  border-radius: 20px;
+  width: 200px;
+  text-align: center;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 16px;
+  line-height: 1.5;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.message-bubble-visible {
+  opacity: 0.9;
+}
+
+.audio-controls {
+  position: absolute;
+  display: flex;
+  align-items: center;
+}
+
+.audio-controls button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  position: relative;
+  bottom: 12px;
+  left: 5px;
+}
+
+.audio-controls img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.audio-controls audio {
+  margin-left: 40px; /* Leave space for the button */
+}
