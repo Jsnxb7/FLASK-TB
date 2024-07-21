@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Profile</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom right, #74ebd5, #ACB6E5);
+    }
+
+    .container {
+        display: flex;
+        height: 80%;
+    }
+
+    .left-segment {
+        width: 20%;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.8);
+        overflow: hidden;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+    }
+
+    .profile-photo {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 0 auto;
+        margin-bottom: 10px;
+    }
+
+    .profile-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .about-me {
+        width: 50%;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.8);
+        overflow-y: auto;
+        height: 100vh; 
+        scrollbar-width: none; /* No scrollbar in Firefox */
+        -ms-overflow-style: none; /* This one here is for edge, to remove the scroll bar from appearance*/
+    }
+
+    .about-me::-webkit-scrollbar {
+        display: none; /* This is same thing, remove scroll bar. But for Chrome, Safari, and Opera */
+    }
+
+    .User-Details {
+        margin-bottom: 40px; 
+        padding: 10px;
+        background-color: #f9f9f9; 
+        border-radius: 10px;
+    }
+
+    .connections {
+        width: 30%;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.8);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center; 
+        justify-content: center; 
+    }
+
+    .connections h2 {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .connections ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .connections li {
+        margin-bottom: 10px;
+        cursor: pointer;
+        color: #333;
+        transition: color 0.3s ease;
+    }
+
+    .connections li:hover {
+        color: #74ebd5; 
+    }
+
+    .connections-image {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 20px;
+    }
+
+    .connections-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .profile-info {
+        text-align: center;
+    }
+
+    .profile-name {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .profile-post {
+        margin-bottom: 10px;
+    }
+
+    .pie-chart {
+        max-width: 100%;
+        height: auto;
+        display: block; 
+        margin: 0 auto;
+    }
+
+    .left-segment button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 4px;
+        border: none;
+        background-color: #fff;
+        text-align: left;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .left-segment button:hover {
+        background-color: #eee;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="left-segment">
+        <button><a href="#Details">Details</a></button>
+        <button><a href="#Two-Factor Authentication">Two-Factor Authentication</a></button>
+        <button><a href="#Account info">Account info</a></button>
+        <button><a href="#Data and Privacy">Data and Privacy</a></button>
+        <button><a href="#Purchases and Subscriptions">Purchases and subscriptions</a></button>
+    </div>
+    <div class="about-me">
+        <div style="width: 500px; height: 500px; background-color: #ccc;"></div> <!--This is where 3D model/avater-->
+ 
+        <p>About Me:</p>
+        <p>Hello! My name is Anuraj Paliwal, and I finally understood Flask enough to make this happen. Currently got out of This University Known as Amity University.</p>
+        <p>It is situated in Noida and that is situated in Uttar Pradesh </p>
+        <p>I know HTML enough to make this webpage and Flask enough to make it dynamic with name and post of the user</p>
+        <p>It took me a couple hours but I did it.</p>
+        <p>I am just writing this paragraph to see if the scroll works</p>
+        <p>Thank you for taking the time to learn a little bit about me!</p>
+
+        <div class="User-Details" id="Details">
+            <h3>Details:</h3>
+            <p>Details something...</p>
+        </div>
+        <div class="User-Details" id="Two-Factor Authentication">
+            <h3>Two-Factor Authentication</h3>
+            <p>1. Enable</p>
+            <p>2. Disable</p>
+        </div>
+        <div class="User-Details" id="Account info">
+            <h3>Account Info:</h3>
+            <p>1. Change sign in Information</p>
+            <p>2. Add recovery email</p>
+            <p>3. Token History</p>
+        </div>
+        <div class="User-Details" id="Data and Privacy">
+            <h3>Data and Privacy</h3>
+            <p>1. Delete my data</p>
+            <p>2. Privacy Policy</p>
+            <p>3. Unlink accounts</p>
+        </div>
+        <div class="User-Details" id="Purchases and Subscriptions">
+            <h3>Purchases and Subscriptions</h3>
+            <p>1. Purchase More Tokens</p>
+            <p>2. Choose a subscription plan</p>
+            <p>3. Redo Last Transaction</p>
+            <p>4. Purchase History</p>
+        </div>
+    </div>
+    <div class="connections">
+        <div class="profile-photo">
+            <img src="static/img/user_img.png" alt="Profile Photo">
+        </div>
+        <div class="profile-info">
+            <div class="profile-name">{{ name }}</div>
+            <div class="profile-post">{{ post }}</div>
+            <img id="pieChart" class="pie-chart" src="{{ chart_url }}" alt="Pie Chart">
+
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const buttons = document.querySelectorAll('.left-segment button');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); // default anchor behaviour is prevented by using this
+                const targetId = this.querySelector('a').getAttribute('href').substring(1); 
+                const targetElement = document.getElementById(targetId);
+
+                if (targetElement) {
+                    // Calculate the offset of the target element relative to the top of the about-me section
+                    const offsetTop = targetElement.offsetTop;
+
+                    // Smooth scroll is applied to the target element, because I wanted to only scroll one segment using internal linking
+                    document.querySelector('.about-me').scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

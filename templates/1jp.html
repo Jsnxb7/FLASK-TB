@@ -47,19 +47,13 @@
                 <div class="reports">Help</div>
               </div>
               </div>
-              <div class="lg-wrapper">
-                <div class="frame-3">
-                  <img class="img" src="static/img/log.png" />
-                  <div class="reports-1"><a href="{{ url_for('login') }}">Log Out</a></div>
-                </div>
-            </div>
             <div class="overlap-group-3">
             </div>
           <div class="profile">
             <button id="profilebutton" class="tbb1"></button>
             <ul class="dropdown-menu">
-              <li class="dropdown-item"><a href="#" class="dropdown-link">Account</a></li>
-              <li class="dropdown-item"><a href="#" class="dropdown-link">Logout</a></li>
+              <li class="dropdown-item"><a href="{{ url_for('profile') }}" class="dropdown-link">Account</a></li>
+              <li class="dropdown-item"><a href="{{ url_for('login') }}" class="dropdown-link">Logout</a></li>
           </ul>
           <script>
             document.addEventListener('DOMContentLoaded', function () {

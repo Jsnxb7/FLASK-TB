@@ -5,6 +5,7 @@ import json
 from pymongo import MongoClient
 import os, re
 import requests
+import matplotlib as plt
 
 
 app = Flask(__name__)
@@ -374,5 +375,12 @@ def serve_audio(filename):
         attachment_filename=filename
     )
 
+@app.route('/profile')
+def profile():
+    name = request.args.get('name')
+    post = request.args.get('post')
+
+    return render_template('profile.html', name=name, post=post)
+    
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
