@@ -202,11 +202,39 @@
         <div class="profile-info">
             <div class="profile-name">{{ name }}</div>
             <div class="profile-post">{{ post }}</div>
-            <img id="pieChart" class="pie-chart" src="{{ chart_url }}" alt="Pie Chart">
-
+            <input type="hidden" id="name" value="{{ name }}">
+            <input type="hidden" id="post" value="{{ post }}">
+            <button id="load-chart" onclick="getname()">Load Pie Chart</button>
+            <img id="pie-chart" alt="Pie Chart of Token Usage" style="display: none;">
         </div>
     </div>
 </div>
+<script>
+    function getname() {
+            const name = document.getElementById('name').value;
+            const post = document.getElementById('post').value;
+
+            fetch('/get_pie_chart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: name, post: post })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error('Error:', data.error);
+                } else {
+                    document.getElementById('pie-chart').src = `data:image/png;base64,${data.pie_chart}`;
+                    document.getElementById('pie-chart').style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+</script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -214,15 +242,12 @@
 
         buttons.forEach(button => {
             button.addEventListener('click', function(event) {
-                event.preventDefault(); // default anchor behaviour is prevented by using this
-                const targetId = this.querySelector('a').getAttribute('href').substring(1); 
+                event.preventDefault();
+                const targetId = this.querySelector('a').getAttribute('href').substring(1);
                 const targetElement = document.getElementById(targetId);
 
                 if (targetElement) {
-                    // Calculate the offset of the target element relative to the top of the about-me section
                     const offsetTop = targetElement.offsetTop;
-
-                    // Smooth scroll is applied to the target element, because I wanted to only scroll one segment using internal linking
                     document.querySelector('.about-me').scrollTo({
                         top: offsetTop,
                         behavior: 'smooth'

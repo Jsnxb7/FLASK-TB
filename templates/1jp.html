@@ -52,7 +52,7 @@
           <div class="profile">
             <button id="profilebutton" class="tbb1"></button>
             <ul class="dropdown-menu">
-              <li class="dropdown-item"><a href="{{ url_for('profile') }}" class="dropdown-link">Account</a></li>
+              <li class="dropdown-item"><a href="{{ url_for('profile', name=name, post=post) }}" class="dropdown-link">Account</a></li>
               <li class="dropdown-item"><a href="{{ url_for('login') }}" class="dropdown-link">Logout</a></li>
           </ul>
           <script>

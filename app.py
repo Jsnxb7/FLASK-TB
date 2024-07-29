@@ -5,7 +5,11 @@ import json
 from pymongo import MongoClient
 import os, re
 import requests
-import matplotlib as plt
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+import io
+import base64
 
 
 app = Flask(__name__)
@@ -92,8 +96,9 @@ def update():
         'email': email,
         'password': password,
         'post': post,
-        'collectionname': user_specific_collection_name
-    }
+        'collectionname': user_specific_collection_name,
+        'tokens': 3000
+            }
     
     # Insert the new user data into the user_data collection
     user_collection.insert_one(user_data)
@@ -207,7 +212,6 @@ def translatehi(text):
     return translation[0]['translation_text']
 
 @app.route('/translathi', methods=['POST'])
-
 def translathi():
     data = request.get_json()
     name = data.get('name')
@@ -263,6 +267,15 @@ def translathi():
             total_token_count += doc.get('token_count', 0)
     except Exception as e:
         print(f"An error occurred while calculating total token count: {e}")
+
+    try:
+        db['user_data'].update_one(
+            {'name': name, 'post': post},
+            {'$set': {'total_token_count': total_token_count}}
+        )
+        print("Total token count updated successfully.")
+    except Exception as e:
+        print(f"An error occurred while updating total token count: {e}")
     
     print(f"Current token count: {token_count}")
     print(f"Total token count: {total_token_count}")
@@ -375,12 +388,60 @@ def serve_audio(filename):
         attachment_filename=filename
     )
 
-@app.route('/profile')
+@app.route('/profile', methods=['GET'])
 def profile():
     name = request.args.get('name')
     post = request.args.get('post')
-
     return render_template('profile.html', name=name, post=post)
-    
+
+@app.route('/get_pie_chart', methods=['POST'])
+def get_pie_chart():
+    data = request.get_json()
+    name = data.get('name')
+    post = data.get('post')
+
+    if not name or not post:
+        return jsonify({'error': 'Name and post are required'}), 400
+
+    client = MongoClient('mongodb://localhost:27017/')
+    db = client['user_data']
+
+    # Retrieve user data
+    user_data = db['user_data'].find_one({'name': name, 'post': post})
+    if not user_data:
+        return jsonify({'error': 'User not found'}), 404
+
+    # Generate the pie chart
+    pie_chart = generate_pie_chart(user_data)
+
+    # Encode the pie chart image in base64
+    pie_chart_base64 = base64.b64encode(pie_chart.getvalue()).decode('utf-8')
+
+    return jsonify({
+        'name': name,
+        'post': post,
+        'pie_chart': pie_chart_base64
+    })
+
+def generate_pie_chart(user_data):
+    # Data for pie chart
+    labels = ['Tokens Used', 'Total Token Count']
+    sizes = [user_data['tokens'], user_data['total_token_count']]
+    colors = ['lightblue', 'lightgreen']
+    explode = (0.1, 0)  # explode the first slice
+
+    fig, ax = plt.subplots()
+    ax.pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%',
+           shadow=True, startangle=140)
+    ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+    # Save the pie chart to a bytes buffer
+    img = io.BytesIO()
+    plt.savefig(img, format='png')
+    img.seek(0)
+    plt.close(fig)
+
+    return img
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
