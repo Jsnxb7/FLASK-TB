@@ -11,11 +11,9 @@ import matplotlib.pyplot as plt
 import io
 import base64
 
-
 app = Flask(__name__)
 
 headers = {"Authorization": "Bearer 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"}
-
 
 @app.route('/', methods=['GET', 'POST'])
 def login():

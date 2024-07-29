@@ -6,71 +6,164 @@
 <title>User Profile</title>
 <style>
     body {
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        width: 100%;
+        height: 100%;
+        background-image: url("static/img/rectangle.jpg");
         margin: 0;
         font-family: Arial, sans-serif;
-        background: linear-gradient(to bottom right, #74ebd5, #ACB6E5);
     }
 
     .container {
         display: flex;
-        height: 80%;
+        height: 100vh;
+        overflow: hidden;
     }
 
     .left-segment {
-        width: 20%;
-        padding: 20px;
-        background-color: rgba(255, 255, 255, 0.8);
-        overflow: hidden;
-        position: sticky;
-        top: 0;
-        height: 100vh;
-    }
+    width: 20%;
+    padding: 20px;
+    border: 2px solid transparent; /* Remove background border */
+    border-radius: 10px;
+    overflow: hidden;
+    position: sticky;
+    top: 0;
+    height: 100%;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.6);
+}
 
-    .profile-photo {
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        overflow: hidden;
-        margin: 0 auto;
-        margin-bottom: 10px;
-    }
+.left-segment button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 8px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
+    color: #333;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+    box-sizing: border-box;
+}
 
-    .profile-photo img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
+.left-segment button:hover {
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly less transparent on hover */
+}
+
+.left-segment a {
+    text-decoration: none;
+    color: inherit; /* Inherit color from button */
+}
+
+.left-segment .toggle-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 8px;
+    background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.left-segment .toggle-link {
+    text-decoration: none;
+    color: #333; /* Inherit color from container */
+    flex: 1;
+}
+
+.left-segment .toggle-container {
+    display: flex;
+    align-items: center;
+}
+
+.left-segment .switch {
+    position: relative;
+    display: inline-block;
+    width: 38px;
+    height: 24px;
+    margin-left: 10px;
+}
+
+.left-segment .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.left-segment .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    border-radius: 50px;
+    transition: .4s;
+}
+
+.left-segment .slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    border-radius: 50px;
+    background-color: white;
+    transition: .4s;
+    left: 4px;
+    bottom: 4px;
+    transform: translateX(0);
+}
+
+.left-segment input:checked + .slider {
+    background-color: #74ebd5;
+}
+
+.left-segment input:checked + .slider:before {
+    transform: translateX(14px);
+}
+
 
     .about-me {
         width: 50%;
         padding: 20px;
-        background-color: rgba(255, 255, 255, 0.8);
+        background-color: rgba(255, 255, 255, 0.6);
         overflow-y: auto;
-        height: 100vh; 
-        scrollbar-width: none; /* No scrollbar in Firefox */
-        -ms-overflow-style: none; /* This one here is for edge, to remove the scroll bar from appearance*/
+        height: 100%;
+        box-sizing: border-box;
     }
 
     .about-me::-webkit-scrollbar {
-        display: none; /* This is same thing, remove scroll bar. But for Chrome, Safari, and Opera */
+        display: none;
     }
 
     .User-Details {
-        margin-bottom: 40px; 
+        margin-bottom: 40px;
         padding: 10px;
-        background-color: #f9f9f9; 
+        background-color: #f9f9f9;
         border-radius: 10px;
     }
 
     .connections {
         width: 30%;
         padding: 20px;
-        background-color: rgba(255, 255, 255, 0.8);
+        background-color: rgba(255, 255, 255, 0.6);
         overflow: hidden;
         display: flex;
         flex-direction: column;
-        align-items: center; 
-        justify-content: center; 
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        box-sizing: border-box;
     }
 
     .connections h2 {
@@ -92,7 +185,7 @@
     }
 
     .connections li:hover {
-        color: #74ebd5; 
+        color: #74ebd5;
     }
 
     .connections-image {
@@ -125,24 +218,8 @@
     .pie-chart {
         max-width: 100%;
         height: auto;
-        display: block; 
-        margin: 0 auto;
-    }
-
-    .left-segment button {
         display: block;
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 4px;
-        border: none;
-        background-color: #fff;
-        text-align: left;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    .left-segment button:hover {
-        background-color: #eee;
+        margin: 0 auto;
     }
 </style>
 </head>
@@ -150,20 +227,28 @@
 <div class="container">
     <div class="left-segment">
         <button><a href="#Details">Details</a></button>
-        <button><a href="#Two-Factor Authentication">Two-Factor Authentication</a></button>
+        <div class="toggle-wrapper">
+            <a href="#Two-Factor Authentication" class="toggle-link">Two-Factor Authentication</a>
+            <div class="toggle-container">
+                <label class="switch">
+                    <input type="checkbox" id="twoFactorToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
         <button><a href="#Account info">Account info</a></button>
         <button><a href="#Data and Privacy">Data and Privacy</a></button>
         <button><a href="#Purchases and Subscriptions">Purchases and subscriptions</a></button>
     </div>
     <div class="about-me">
-        <div style="width: 500px; height: 500px; background-color: #ccc;"></div> <!--This is where 3D model/avater-->
+        <div style="width: 100%; height: 300px; background-color: #ccc; margin-bottom: 20px;"></div> <!-- Placeholder for 3D model/avatar -->
  
         <p>About Me:</p>
         <p>Hello! My name is Anuraj Paliwal, and I finally understood Flask enough to make this happen. Currently got out of This University Known as Amity University.</p>
-        <p>It is situated in Noida and that is situated in Uttar Pradesh </p>
-        <p>I know HTML enough to make this webpage and Flask enough to make it dynamic with name and post of the user</p>
-        <p>It took me a couple hours but I did it.</p>
-        <p>I am just writing this paragraph to see if the scroll works</p>
+        <p>It is situated in Noida and that is situated in Uttar Pradesh.</p>
+        <p>I know HTML enough to make this webpage and Flask enough to make it dynamic with name and post of the user.</p>
+        <p>It took me a couple of hours but I did it.</p>
+        <p>I am just writing this paragraph to see if the scroll works.</p>
         <p>Thank you for taking the time to learn a little bit about me!</p>
 
         <div class="User-Details" id="Details">
@@ -242,12 +327,15 @@
 
         buttons.forEach(button => {
             button.addEventListener('click', function(event) {
-                event.preventDefault();
+                event.preventDefault(); // Prevent default anchor behavior
                 const targetId = this.querySelector('a').getAttribute('href').substring(1);
                 const targetElement = document.getElementById(targetId);
 
                 if (targetElement) {
+                    // Calculate the offset of the target element relative to the top of the about-me section
                     const offsetTop = targetElement.offsetTop;
+
+                    // Smooth scroll to the target element within the about-me section
                     document.querySelector('.about-me').scrollTo({
                         top: offsetTop,
                         behavior: 'smooth'
@@ -255,6 +343,27 @@
                 }
             });
         });
+
+        // Toggle switch logic
+        const toggle = document.getElementById('twoFactorToggle');
+        const twoFactorSection = document.getElementById('Two-Factor Authentication');
+
+        toggle.addEventListener('change', function() {
+            if (this.checked) {
+                console.log('Two-Factor Authentication Enabled');
+                twoFactorSection.style.display = 'block'; // Show section
+            } else {
+                console.log('Two-Factor Authentication Disabled');
+                twoFactorSection.style.display = 'none'; // Hide section
+            }
+        });
+
+        // Initialize section visibility based on current toggle state
+        if (toggle.checked) {
+            twoFactorSection.style.display = 'block';
+        } else {
+            twoFactorSection.style.display = 'none';
+        }
     });
 </script>
 
