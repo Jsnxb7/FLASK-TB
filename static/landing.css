@@ -6,15 +6,13 @@ body {
     font-family: Arial, sans-serif;
     background-image: url("img/rectangle.jpg");
     display: flex;
-    width: 1280px;
-    height: 600px;
     background-size: cover;
     justify-content: center;
 
 }
 
 .square-container {
-    position: absolute;
+    position: relative;
     width: 800px;
     height: 300px;
     top: 160px;
@@ -32,8 +30,8 @@ body {
     font-family: MV Boli;
     position: absolute;
     color: #4286db;
-    top: 140px;
-    right: 290px;
+    margin: auto;
+    left: 30px;
     width: 750px;
     border: none;
     font-size: 50px;

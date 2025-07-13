@@ -6,12 +6,12 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='landing.css') }}" />
 </head>
 <body>
+    <div class="square-container">
 	<i>
 	<h1 class="ch">
 		Choose your Language
 	</h1>
 	</i>
-    <div class="square-container">
         <a href="{{ url_for('Japanese', name=name, post=post, collectionname=collectionname) }}"><button class="square-button">Japanese</button></a>
         <a href="{{ url_for('Hindi', name=name, post=post, collectionname=collectionname) }}"><button class="square-button" >Hindi</button></a>
     </div>

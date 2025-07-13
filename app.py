@@ -10,16 +10,18 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import io
 import base64
+import atexit
 
 app = Flask(__name__)
+
+client = MongoClient('mongodb+srv://shouryagarg2012:XGxOxzFRFHp87Kpe@cluster0.zyqzpr5.mongodb.net/')
+db = client['user_data']
+collection = db['user_data']
 
 headers = {"Authorization": "Bearer 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"}
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
-    client = MongoClient('mongodb://localhost:27017/')
-    db = client['user_data']
-    collection = db['user_data']
 
     if request.method == 'POST':
         entered_username = request.form['username']
@@ -72,10 +74,6 @@ def Hindi():
 @app.route('/signup1', methods=['POST'])
 def update():
 
-    client = MongoClient('mongodb://localhost:27017/')  
-    db = client['user_data']
-    user_collection = db['user_data'] 
-
     # Extract user data from the form
     name = request.form['name']
     username = request.form['username']
@@ -99,7 +97,7 @@ def update():
             }
     
     # Insert the new user data into the user_data collection
-    user_collection.insert_one(user_data)
+    collection.insert_one(user_data)
     
     # Optionally, you can insert initial data into the user's specific collection
     initial_data = {
@@ -112,17 +110,12 @@ def update():
     
     return redirect(url_for('login'))
 
-
 @app.route('/signup')
 def sign_up():
     return render_template('signup.html')
 
 def get_next_serial_number(collectionname):
     
-    client = MongoClient('mongodb://localhost:27017/')
-    db = client['user_data']
-    collection = db[collectionname]
-
     try:
         # Get the count of documents in the MongoDB collection
         data_count = collection.count_documents({})
@@ -131,7 +124,6 @@ def get_next_serial_number(collectionname):
         print(f"An error occurred: {e}")
         return 1
     
-
 def translatejp(text):
     API_URLS = "https://api-inference.huggingface.co/models/Helsinki-NLP/opus-tatoeba-en-ja"
     payload = {"inputs": text}
@@ -149,8 +141,6 @@ def translatjp():
     if not name or not post:
         return jsonify({'error': 'Name and post are required'}), 410
     
-    client = MongoClient('mongodb://localhost:27017/')
-    db = client['user_data']
     
     # Retrieve user data to get collectionname
     user_data = db['user_data'].find_one({'name': name, 'post': post})
@@ -218,9 +208,6 @@ def translathi():
     
     if not name or not post:
         return jsonify({'error': 'Name and post are required'}), 510
-    
-    client = MongoClient('mongodb://localhost:27017/')
-    db = client['user_data']
     
     # Retrieve user data to get collectionname
     user_data = db['user_data'].find_one({'name': name, 'post': post})
@@ -292,9 +279,6 @@ def speechjp():
     if not name or not post or not serial_number:
         return jsonify({'error': 'Name, post, and serial number are required'}), 511
 
-    client = MongoClient('mongodb://localhost:27017/')
-    db = client['user_data']
-
     # Retrieve the collectionname from the user_data collection
     user_data = db['user_data'].find_one({'name': name, 'post': post})
     if not user_data or 'collectionname' not in user_data:
@@ -338,9 +322,6 @@ def speechhi():
     if not name or not post or not serial_number:
         return jsonify({'error': 'Name, post, and serial number are required'}), 411
 
-    client = MongoClient('mongodb://localhost:27017/')
-    db = client['user_data']
-
     # Retrieve the collectionname from the user_data collection
     user_data = db['user_data'].find_one({'name': name, 'post': post})
     if not user_data or 'collectionname' not in user_data:
@@ -373,7 +354,6 @@ def speechhi():
 
     return jsonify(audio_url=audio_url), 200
 
-
 @app.route('/output/<filename>')
 def serve_audio(filename):
     path_to_file = f"static/{filename}"
@@ -400,9 +380,6 @@ def get_pie_chart():
 
     if not name or not post:
         return jsonify({'error': 'Name and post are required'}), 400
-
-    client = MongoClient('mongodb://localhost:27017/')
-    db = client['user_data']
 
     # Retrieve user data
     user_data = db['user_data'].find_one({'name': name, 'post': post})
@@ -441,5 +418,18 @@ def generate_pie_chart(user_data):
 
     return img
 
+def clean_up():
+    static_dir = os.path.join(os.path.dirname(__file__), 'static')
+    for file in os.listdir(static_dir):
+        if file.endswith('.mp3'):
+            try:
+                os.remove(os.path.join(static_dir, file))
+                print(f"Deleted: {file}")
+            except Exception as e:
+                print(f"Error deleting {file}: {e}")
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    try:
+        app.run(host='0.0.0.0', port=5000)
+    finally:
+        clean_up()
