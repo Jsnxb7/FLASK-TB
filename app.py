@@ -394,8 +394,19 @@ def get_pie_chart():
     if not user_data:
         return jsonify({'error': 'User not found'}), 404
 
+    # Get the collection name from a specific field in user_data
+    user_collection_name = user_data.get('collectionname')
+    if not user_collection_name:
+        return jsonify({'error': 'Collection name not found for this user'}), 402
+
+    # Now get the collection
+    user_collection = db[user_collection_name]
+
+    # Calculate total tokens used from that collection
+    total_tokens_used = sum(doc.get('token_count', 0) for doc in user_collection.find())
+
     # Generate the pie chart
-    pie_chart = generate_pie_chart(user_data)
+    pie_chart = generate_pie_chart(total_tokens_used, user_data['tokens'])
 
     # Encode the pie chart image in base64
     pie_chart_base64 = base64.b64encode(pie_chart.getvalue()).decode('utf-8')
@@ -406,25 +417,26 @@ def get_pie_chart():
         'pie_chart': pie_chart_base64
     })
 
-def generate_pie_chart(user_data):
-    # Data for pie chart
-    labels = ['Tokens Used', 'Total Token Count']
-    sizes = [user_data['tokens'], user_data['total_token_count']]
+
+def generate_pie_chart(total_tokens_used, total_token_count):
+    print(total_tokens_used, total_token_count)
+    labels = ['Tokens Used', 'Remaining Tokens']
+    sizes = [total_tokens_used, total_token_count - total_tokens_used]
     colors = ['lightblue', 'lightgreen']
-    explode = (0.1, 0)  # explode the first slice
+    explode = (0.1, 0)
 
     fig, ax = plt.subplots()
     ax.pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%',
            shadow=True, startangle=140)
-    ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+    ax.axis('equal')
 
-    # Save the pie chart to a bytes buffer
     img = io.BytesIO()
     plt.savefig(img, format='png')
     img.seek(0)
     plt.close(fig)
 
     return img
+
 
 def clean_up():
     static_dir = os.path.join(os.path.dirname(__file__), 'static')
