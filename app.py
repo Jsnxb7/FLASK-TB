@@ -1,9 +1,8 @@
 from flask import Flask, request, jsonify, render_template, send_file, redirect, url_for
 from gtts import gTTS
 import time
-import json
 from pymongo import MongoClient
-import os, re
+import os
 import requests
 import matplotlib
 matplotlib.use('Agg')
@@ -11,6 +10,7 @@ import matplotlib.pyplot as plt
 import io
 import base64
 import atexit
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
 app = Flask(__name__)
 
@@ -114,7 +114,7 @@ def update():
 def sign_up():
     return render_template('signup.html')
 
-def get_next_serial_number(collectionname):
+def get_next_serial_number(collection):
     
     try:
         # Get the count of documents in the MongoDB collection
@@ -124,19 +124,27 @@ def get_next_serial_number(collectionname):
         print(f"An error occurred: {e}")
         return 1
     
+tokenizer = AutoTokenizer.from_pretrained("Helsinki-NLP/opus-tatoeba-en-ja")
+model = AutoModelForSeq2SeqLM.from_pretrained("Helsinki-NLP/opus-tatoeba-en-ja")
+
 def translatejp(text):
-    API_URLS = "https://api-inference.huggingface.co/models/Helsinki-NLP/opus-tatoeba-en-ja"
-    payload = {"inputs": text}
-    response = requests.post(API_URLS, headers=headers, json=payload)
-    translation = response.json()
-    return translation[0]['translation_text']
-    
+    # Tokenize the input text
+    inputs = tokenizer(text, return_tensors="pt")
+
+    # Generate translated output
+    outputs = model.generate(**inputs)
+
+    # Decode the output tokens
+    translated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+
+    print(translated_text)
+    return translated_text
+
 @app.route('/translatjp', methods=['POST'])
 def translatjp():
     data = request.get_json()
     name = data.get('name')
     post = data.get('post')
-    text = data.get('text')
     
     if not name or not post:
         return jsonify({'error': 'Name and post are required'}), 410
@@ -152,6 +160,7 @@ def translatjp():
 
     twt = request.get_json()
     tex = twt.get('text')
+    print(tex)
     
     # Translate text using the Hugging Face model
     translation = translatejp(tex)
@@ -160,7 +169,7 @@ def translatjp():
     token_count = len(tex) * 3
     
     # Get the next serial number
-    serial_number = get_next_serial_number(collectionname)
+    serial_number = get_next_serial_number(collection)
     
     output_data = {
         "serial_number": serial_number,
@@ -204,7 +213,6 @@ def translathi():
     data = request.get_json()
     name = data.get('name')
     post = data.get('post')
-    text = data.get('text')
     
     if not name or not post:
         return jsonify({'error': 'Name and post are required'}), 510
@@ -227,7 +235,7 @@ def translathi():
     token_count = len(tex) * 3
     
     # Get the next serial number
-    serial_number = get_next_serial_number(collectionname)
+    serial_number = get_next_serial_number(collection)
     
     output_data = {
         "serial_number": serial_number,
