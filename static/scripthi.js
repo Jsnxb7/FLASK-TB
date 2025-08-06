@@ -4,17 +4,24 @@ function showMessageBubble() {
     }
     
 function translat() {
-    const text = document.getElementById('message-input').value;
-    const name = document.getElementById('name').value
-    const post = document.getElementById('post').value; 
-    const chatMessages = document.getElementById('chat-messages');
-    const bubblemsg = document.getElementById('message-bubble')
-    const popbubble = document.getElementById('message-bubble')
+    const text = document.getElementById('message-input').value.trim();
+    const name = document.getElementById('name').value;
+    const post = document.getElementById('post').value;
+    const chatArea = document.getElementById('chat-area');
+
+    if (text === '') return;
+
+    // Create user message bubble
     const userMessageElement = document.createElement('div');
-    userMessageElement.className = 'message';
-    userMessageElement.textContent = `You: ${text}`;
-    bubblemsg.appendChild(userMessageElement)
-    
+    userMessageElement.className = 'msg user';
+    userMessageElement.textContent = text;
+    chatArea.appendChild(userMessageElement);
+    chatArea.scrollTop = chatArea.scrollHeight;
+
+    // Clear the input field
+    document.getElementById('message-input').value = '';
+
+    // Send message to server
     fetch('/translathi', {
         method: 'POST',
         headers: {
@@ -25,26 +32,32 @@ function translat() {
     .then(response => response.json())
     .then(data => {
         if (data.serial_number) {
+            // Get audio from /speechhi
             fetch('/speechhi', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ serial_number: data.serial_number, name: name, post: post})
+                body: JSON.stringify({
+                    serial_number: data.serial_number,
+                    name: name,
+                    post: post
+                })
             })
             .then(response => response.json())
             .then(data => {
                 if (data.audio_url) {
+                    // Create audio player with mute/unmute
                     const audioDiv = document.createElement('div');
                     const audio = new Audio(data.audio_url);
                     audio.controls = false;
-    
+
                     const playPauseButton = document.createElement('button');
                     playPauseButton.className = 'audio-control';
                     playPauseButton.innerHTML = "<img src='static/img/unmute.jpeg' alt='Pause'>";
                     let isPlaying = false;
-    
-                    playPauseButton.addEventListener('click', function() {
+
+                    playPauseButton.addEventListener('click', function () {
                         if (!isPlaying) {
                             audio.play();
                             playPauseButton.innerHTML = "<img src='static/img/unmute.jpeg' alt='Pause'>";
@@ -55,32 +68,32 @@ function translat() {
                             isPlaying = false;
                         }
                     });
-    
-                    audio.addEventListener('play', function() {
-                        playPauseButton.innerHTML ="<img src='static/img/unmute.jpeg' alt='Pause'>";
+
+                    audio.addEventListener('play', () => {
+                        playPauseButton.innerHTML = "<img src='static/img/unmute.jpeg' alt='Pause'>";
                         isPlaying = true;
                     });
-    
-                    audio.addEventListener('pause', function() {
-                        playPauseButton.innerHTML = "<img src='static/img/muted.jpeg' alt='play'>";
+
+                    audio.addEventListener('pause', () => {
+                        playPauseButton.innerHTML = "<img src='static/img/muted.jpeg' alt='Play'>";
                         isPlaying = false;
                     });
-    
+
                     audioDiv.className = 'audio-controls';
                     audioDiv.appendChild(playPauseButton);
                     audioDiv.appendChild(audio);
-                    bubblemsg.appendChild(audioDiv);
+                    chatArea.appendChild(audioDiv);
                 }
             });
-    
-            const translatedText = data.translated_text;
-            const translatedMessageElement = document.createElement('div');
-            translatedMessageElement.className = 'message';
-            translatedMessageElement.textContent = `${translatedText}`;
-            bubblemsg.appendChild(translatedMessageElement);
-    
-            showMessageBubble();
         }
+
+        // Show translated assistant message
+        const translatedText = data.translated_text || 'Translation error.';
+        const translatedMessageElement = document.createElement('div');
+        translatedMessageElement.className = 'msg assistant';
+        translatedMessageElement.textContent = translatedText;
+        chatArea.appendChild(translatedMessageElement);
+        chatArea.scrollTop = chatArea.scrollHeight;
     });
 }
 

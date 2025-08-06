@@ -49,9 +49,23 @@
         button:hover {
             background-color: #45a049;
         }
+                  .video-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 170%;
+  height: 170%;
+  z-index: -1;
+  object-fit: cover;
+}
     </style>
 </head>
 <body>
+    <video class="video-background" autoplay loop muted playsinline>
+  <source src="{{ url_for('static', filename='img/stars.mp4') }}" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
     <form action="/signup1" method="post">
         <label for="username">Name:</label>
         <input type="text" id="name" name="name" required>

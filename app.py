@@ -9,7 +9,6 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import io
 import base64
-import atexit
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
 app = Flask(__name__)

@@ -16,20 +16,28 @@ body {
     width: 800px;
     height: 300px;
     top: 160px;
-    border: 5px solid #ccc;
+    border: 5px solid #171616;
     box-shadow: inset;
     border-radius: 20px;
     margin: 10px;
     display: flex;
     flex-direction: column;
-    background-color: #ffffffcc;
+    background-color: #222020cc;
     box-shadow: var(--dashboard-design-system-dashboard-box-shadow)
 }
-
+          .video-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 170%;
+  height: 170%;
+  z-index: -1;
+  object-fit: cover;
+}
 .ch{
     font-family: MV Boli;
     position: absolute;
-    color: #4286db;
+    color: #99b1d0;
     margin: auto;
     left: 30px;
     width: 750px;
@@ -45,10 +53,10 @@ body {
     position: relative;
     padding: 15px;
     border: none;
-    background-color: #5c9ed6;
+    background-color: #c2e3ff;
     top: 100px;
     left: 130px;
-    color: white;
+    color: #251f1f;
     font-size: 18px;
     cursor: pointer;
     border-radius: 10px;
